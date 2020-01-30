@@ -142,7 +142,7 @@ metadata:
   name: cockroachdb
 spec:
   serviceName: "cockroachdb"
-  replicas: 3
+  replicas: 5 # must be updated in setup.py also
   selector:
     matchLabels:
       app: cockroachdb
@@ -166,6 +166,7 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - name: cockroachdb
+        # NOTE: previously tested: cockroachdb/cockroach-unstable:v20.1.0-alpha20191216
         image: cockroachdb/cockroach:v19.2.1
         imagePullPolicy: IfNotPresent
         ports:
@@ -220,8 +221,9 @@ spec:
   - metadata:
       name: datadir
     spec:
+      storageClassName: ssd
       accessModes:
         - "ReadWriteOnce"
       resources:
         requests:
-          storage: 100Gi
+          storage: 1000Gi

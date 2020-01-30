@@ -23,6 +23,10 @@ from time import sleep
 #     'us-west1-b': 'gke_cockroach-alex_us-west1-b_my-cluster',
 # }
 contexts = {
+    # NOTE: don't apply this against these clusters, Bryan still need these working
+    # 'cockroachdb-northamerica-northeast1': 'gke_scorebet-staging_northamerica-northeast1_cockroachdb-northamerica-northeast1',
+    # 'cockroachdb-us-central1': 'gke_scorebet-staging_us-central1_cockroachdb-us-central1',
+    # 'cockroachdb-us-west2': 'gke_scorebet-staging_us-west2_cockroachdb-us-west2',
 }
 
 # Fill in the `regions` map with the zones and corresponding regions of your
@@ -153,7 +157,7 @@ for zone, context in contexts.items():
 # Generate the join string to be used.
 join_addrs = []
 for zone in contexts:
-    for i in range(3):
+    for i in range(5): # match statefulset replica count
         join_addrs.append('cockroachdb-%d.cockroachdb.%s' % (i, zone))
 join_str = ','.join(join_addrs)
 
